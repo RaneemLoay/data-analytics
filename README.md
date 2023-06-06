@@ -1,7 +1,7 @@
 # data-analytics
 applying the Data Analytics project cycle on Rain in Australia dataset
 
-##steps
+## steps
 - Descriptive statistics
 - Data preprocessing
 - Outliers detection
@@ -13,3 +13,5 @@ applying the Data Analytics project cycle on Rain in Australia dataset
   - Logistic Regression
   - K-Nearest Neighbors (KNN) Classifier
 
+
+### Team members
