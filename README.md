@@ -14,4 +14,10 @@ applying the Data Analytics project cycle on Rain in Australia dataset
   - K-Nearest Neighbors (KNN) Classifier
 
 
-### Team members
+### Team members :
+- [Aya Osama](https://github.com/)
+- [Doaa Elkhani](https://github.com/)
+- [Raneem Sherif](https://github.com/Raneeml)
+- [Raneem Loay](https://github.com/RaneemLoay)
+- [Rawan Alaa](https://github.com/12Rawan) 
+- [Sohyla Tarek](https://github.com/Sohyla31)
