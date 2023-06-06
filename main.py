@@ -10,9 +10,8 @@ print(df.shape)
 print(df.info())
 print(df.isna().sum())
 #drop columns
-df = df.drop(["Evaporation","Sunshine","Cloud9am","Cloud3pm","Location", "Date"], axis =1)
-
-print(df.describe());
+df = df.drop(["Evaporation","Sunshine","Cloud9am","Cloud3pm","Location","Date"], axis =1)
+##print(df.describe());
 df = df.dropna(axis = 0);
 print(df.shape)
 print(df.duplicated())
@@ -65,17 +64,10 @@ print ("Humidity3pm_var  : ", Humidity3pm_var)
 print ("Humidity9am var : ", Humidity9am_var)
 
 
-
-from sklearn.preprocessing import LabelEncoder
 X = df.drop(['RainTomorrow'], axis = 1)
 Y = df['RainTomorrow']
-#
 
-#
-##########Visualization################
-
-
-
+##visualization##
 
 #scatterplot matrix
 df.hist(bins = 10 , figsize= (14,14))
@@ -86,15 +78,16 @@ sns.histplot(x=df.MaxTemp)
 plt.title("MaxTemp Distribution", color="red", fontsize=18)
 plt.show()
 
-
 # correlation heatmap
 ##using sns
 # plt.figure(figsize=(8,8))
 # sns.heatmap(df.corr())
 # plt.show()
 
+
 ##using go
-df_corr = df.corr() # Generate correlation matrix
+# Generate correlation matrix
+df_corr = df.corr()
 fig = go.Figure()
 fig.add_trace(
     go.Heatmap(
@@ -105,7 +98,6 @@ fig.add_trace(
 )
 fig.show()
 
-
 #scatterPlots
 scatterPlot= px.scatter(df.sample(2000),
            title='Min Temp. vs Max Temp.',
@@ -115,7 +107,6 @@ scatterPlot= px.scatter(df.sample(2000),
 scatterPlot.show()
 #### It shows a linear positive correlation between minimum temperature and maximum temperature
 
-
 scatterPlot= px.scatter(df.sample(2000),
            title='Humidity vs Temp.',
            x='Humidity3pm',
@@ -124,13 +115,71 @@ scatterPlot= px.scatter(df.sample(2000),
 scatterPlot.show()
 #### It shows a linear negative correlation between humidity and  temperature
 
-
 #barPlot
 sns.barplot(data=df, x="RainTomorrow", y="Rainfall")
 plt.show()
 #### The higher the rate of rain, the greater the probability of rain tomorrow
 
-#pieChart
+#pie chart
 fig = px.pie(df, names='RainToday', title='RainToday',color_discrete_sequence=px.colors.sequential.RdBu)
 fig.show()
 
+from sklearn.model_selection import train_test_split
+x_train , x_test , y_train , y_test = train_test_split(X,Y, test_size= 0.20 , random_state= 42)
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.neighbors import KNeighborsClassifier
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import recall_score, precision_score
+
+# Random forest
+model_1=RandomForestClassifier(max_depth=7 , max_features=3,n_estimators= 100)
+model_1.fit(x_train,y_train)
+Random_forest_prediction = model_1.predict(x_test)
+
+print( confusion_matrix(y_test,Random_forest_prediction))
+print('randomForest accuracy ' ,accuracy_score(y_test,Random_forest_prediction))
+print( 'randomForest recall ' ,recall_score(y_test,Random_forest_prediction))
+print( 'randomForest precision ',precision_score(y_test,Random_forest_prediction))
+
+#DecisionTreeClassifier
+model_2 = DecisionTreeClassifier()
+model_2.fit(x_train,y_train)
+DecisionTree_prediction = model_2.predict(x_test)
+
+print(confusion_matrix(y_test,DecisionTree_prediction))
+print('decisionTree accuracy' ,accuracy_score(y_test,DecisionTree_prediction))
+print('decisionTree recall' , recall_score(y_test,DecisionTree_prediction))
+print('decisionTree precision',precision_score(y_test,DecisionTree_prediction))
+
+#naive bayes classifier (Multinomial)
+model_3 = MultinomialNB()
+model_3.fit(x_train.abs(),y_train.abs())
+Multinomial_prediction = model_3.predict(x_test)
+print(confusion_matrix(y_test,Multinomial_prediction))
+print('mulinomial accuracy' , accuracy_score(y_test,Multinomial_prediction))
+print('mulinomial recall' , recall_score(y_test,Multinomial_prediction, average='weighted'))
+print('mulinomial precision', precision_score(y_test,Multinomial_prediction, average='weighted'))
+
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression(max_iter=1000)
+lr.fit(x_train,y_train)
+predictions = lr.predict(x_test)
+print(confusion_matrix(y_test, predictions))
+print('LogisticRegression accuracy' ,accuracy_score(y_test, predictions))
+
+# knn
+model_4 = KNeighborsClassifier(3)
+model_4.fit(x_train,y_train)
+knn_prediction = model_4.predict(x_test)
+
+print(confusion_matrix(y_test,knn_prediction))
+print('knn accuracy' , accuracy_score(y_test,knn_prediction))
+print('knn recall' , recall_score(y_test, knn_prediction, average='weighted'))
+print('knn precision', precision_score(y_test,knn_prediction, average='weighted'))
