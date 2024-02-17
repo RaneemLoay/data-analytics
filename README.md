@@ -15,7 +15,7 @@ applying the Data Analytics project cycle on Rain in Australia dataset
 
 
 ### Team members :
-- [Aya Osama](https://github.com/)
+- [Aya Osama](https://github.com/aya-mourad)
 - [Doaa Elkhani](https://github.com/)
 - [Raneem Sherif](https://github.com/Raneeml)
 - [Raneem Loay](https://github.com/RaneemLoay)
